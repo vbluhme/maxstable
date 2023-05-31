@@ -5,7 +5,7 @@ library(jsonlite)
 library(geojsonsf)
 
 dmi_stations <- GET(
-  url = "https://dmigw.govcloud.dk/v2/climateData/collections/station/items?api-key=4848355b-8089-48a4-95b5-27d20a03688b"
+  url = "https://dmigw.govcloud.dk/v2/climateData/collections/station/items?api-key=<api-key>"
 ) %>% 
   content("text") %>% 
   jsonlite::fromJSON(flatten = TRUE) %>% 
@@ -25,7 +25,7 @@ dmi_stations <- GET(
 ## Loads daily maximum temperatures for all weather stations for a given year.
 load_dmi <- function(year) {
   url <- paste(
-    "https://dmigw.govcloud.dk/v2/climateData/collections/stationValue/items?api-key=4848355b-8089-48a4-95b5-27d20a03688b",
+    "https://dmigw.govcloud.dk/v2/climateData/collections/stationValue/items?api-key=<api-key>",
     "parameterId=max_temp_w_date",
     "timeResolution=day",
     "limit=300000",

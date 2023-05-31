@@ -69,31 +69,3 @@ vec fast_BR(mat x, double alpha, double s, mat L) {
 
   return Z;
 }
-
-// sim_extremalfuns <- function(x, rPx, cb = NULL, ...) {
-//     
-//     
-//     if (N == 1) return(Z)
-//       
-//       for (n in 2:N) {
-//         cat("\r n:", n, "/", N)
-//         Gamma <- rexp(1)
-//         Y <- NA; zY <- NA; accept <- FALSE
-//         if(!is.null(cb)) cb()
-//           while (Gamma^(-1) > Z[n]) {
-//             Y <- rPx(n, x, ...)
-//             zY <- Gamma^(-1) * Y
-//             
-//             if (all(zY[1:(n-1)] < Z[1:(n-1)])) {
-//               accept <- TRUE
-//               Z <- pmax(Z, zY)
-//             }
-//             
-//             Gamma <- Gamma + rexp(1)
-//               if(!is.null(cb)) cb()
-//                 
-//                 accept <- FALSE
-//           }
-//       }
-//       Z
-// }
