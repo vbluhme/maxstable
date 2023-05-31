@@ -1,5 +1,5 @@
 # Theory and simulation of max-stable processes: With applications to extremal temperatures
-Companion repository for master's thesis on max-stable processes written under the supervision of Thomas Mikosch at the Department of Mathematical Sciences, University of Copenhagen.
+Companion repository for master's thesis on max-stable processes written by Viktor Bluhme Jeppesen under the supervision of Thomas Mikosch at the Department of Mathematical Sciences, University of Copenhagen.
 
 **Abstract:**
 > In this thesis, we investigate the mathematical properties of max-stable processes and introduce a number of methods for their simulation. We implement simulation by extremal functions and sum-normalized threshold stopping in the statistical programming language `R` using a model-agnostic object-oriented approach. By means of a benchmarking study, we find the extremal functions algorithm to be more efficient than sum-normalization. Using data from the Danish Meteorological Institute, we estimate a max-stable model of Danish summer temperatures. We simulate from this model to estimate return levels of Danish summer temperatures and conditional probabilities of exceedances at high quantiles.
