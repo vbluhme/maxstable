@@ -1,8 +1,5 @@
 source("sim_extremalfuns_S3.R")
-
-library(Rcpp)
-library(RcppArmadillo)
-sourceCpp('fast_BR.cpp')
+library(tikzDevice)
 
 set.seed(3)
 
@@ -29,9 +26,9 @@ if(recalculate_L) {
 }
 load("BR_obj_grid100_v2.RData")
 
+# This takes a few hours
 recalculate_Z <- TRUE
 if(recalculate_Z) {
-  # Oh boy. This takes a few hours
   Z1 <- sim_extremalfuns(BR_obj1)
   Z2 <- sim_extremalfuns(BR_obj2)
   Z3 <- sim_extremalfuns(BR_obj3)
@@ -97,7 +94,6 @@ p2 <- as_tibble(coord) %>%
 p1
 p2
 
-library(tikzDevice)
 tikz('../tex/fig/extremal_functions_sheet_BR.tex',width=6,height=6)
 p1
 dev.off()

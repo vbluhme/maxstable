@@ -1,10 +1,9 @@
 source("sim_extremalfuns_S3.R")
+library(tikzDevice)
 
-#set.seed(55223)
 set.seed(446617)
 
 x <- 1:4 
-#x <- seq(0.1,1.2,0.1)
 extremal_tracer <- tracer(
   c("k", "zY", "Z", "Gammainv", "accept"),
   expr = quote({Gammainv <- 1/Gamma})
@@ -20,7 +19,6 @@ df <- summary(extremal_tracer) %>% tibble()
 ## These plots are for illustrative purposes only...
 df <- df[-3,]
 df[5, "zY.4"] <- 3.2
-
 
 df <- df %>% 
   mutate(
@@ -62,9 +60,6 @@ p1 <- df %>%
 
 p1
 
-library(tikzDevice)
 tikz('../tex/fig/extremal_functions_illustration.tex',width=6,height=2.5)
 p1
 dev.off()
-
-stop("Stop en halv!")

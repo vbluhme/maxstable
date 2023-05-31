@@ -6,49 +6,6 @@ extcoeff_BR <- function(h, s, alpha) {
   2 * pnorm(sqrt(gamma)/2)
 }
 
-## Plot Brown-Resnick extremal coefficient function ----
-p1 <- expand.grid(h = seq(0,5,0.05), s = 1, alpha = c(0.5, 1, 1.5, 2)) %>% 
-  as_tibble() %>% 
-  mutate(
-    theta = extcoeff_BR(h, s, alpha),
-  ) %>% 
-  ggplot(aes(h, theta, col = as.factor(-alpha))) +
-  geom_line() +
-  geom_text(
-    aes(label = ifelse(h == 5, paste0("$\\alpha = ", alpha, "$"),NA)),
-    hjust = 1, nudge_y = 0.05, size = 3, nudge_x = 0.1
-  ) +
-  theme_minimal() +
-  theme(legend.position = "none") +
-  xlim(0,5.1) + 
-  scale_y_continuous(limits = c(1,2.1), breaks = seq(1,2,0.25)) +
-  xlab("$h$") + ylab("$\\theta(h)$") 
-
-
-p2 <- expand.grid(h = seq(0,5,0.05), s = c(0.5, 1, 2, 5), alpha = 1) %>% 
-  as_tibble() %>% 
-  mutate(
-    theta = extcoeff_BR(h, s, alpha),
-  ) %>% 
-  ggplot(aes(h, theta, col = as.factor(s))) +
-  geom_line() +
-  geom_text(
-    aes(label = ifelse(h == 5, paste0("$s = ", s, "$"),NA)),
-    hjust = 1, nudge_y = 0.05, size = 3
-  ) +
-  theme_minimal() +
-  theme(legend.position = "none") +
-  xlim(0,5) + 
-  scale_y_continuous(limits = c(1,2.1), breaks = seq(1,2,0.25)) +
-  xlab("$h$") + ylab(NULL) 
-
-cowplot::plot_grid(p1,p2, nrow = 1)
-
-tikz('../tex/fig/BR_extcoeff.tex',width=5,height=2.5)
-cowplot::plot_grid(p1,p2, nrow = 1)
-dev.off()
-
-
 ## Show convergence from simulations
 set.seed(1)
 
@@ -78,7 +35,7 @@ theta_sim <- bind_rows(
 )
 
 
-p <- theta_sim %>% 
+p1 <- theta_sim %>% 
   mutate(
     k_lab = paste0("k = ", k) %>% fct_reorder(k),
     k = as_factor(k)
@@ -93,16 +50,15 @@ p <- theta_sim %>%
   scale_y_continuous(limits = c(1,2), breaks = c(1,1.5,2)) +
   scale_x_continuous(limits = c(0,1.5))
 
-p
+p1
 
 tikz('../tex/fig/BR_extcoeff_convergence.tex',width=5.5,height=4)
-p
+p1
 dev.off()
 
 
-## Marginal distributions
+## Produce QQ-plots of marginal distributions
 set.seed(1)
-
 
 n <- 10
 coord <- data.frame(x = runif(n), y = runif(n)) %>% as.matrix()
@@ -159,7 +115,7 @@ df <- bind_rows(
 
 qfrechet <- function(p) 1/log(1/p)
 
-p <- df %>% 
+p2 <- df %>% 
   rename(sim = name) %>% 
   group_by(sim, model, algorithm) %>% 
   filter(row_number() == 5) %>% 
@@ -181,8 +137,8 @@ p <- df %>%
     strip.background = element_rect(colour = NA, fill="lightgray")
   )
 
-p
+p2
 
 tikz('../tex/fig/check_simulation_qqplot.tex',width=5.5,height=4)
-p
+p2
 dev.off()

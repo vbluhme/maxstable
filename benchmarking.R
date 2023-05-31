@@ -1,13 +1,12 @@
+### THIS FILE INCLUDES:
+### 1. Benchmark for evaluation of fBs covariance matrix
+### 2. Benchmark of simulation algorithms for Brown-Resnick and Smith models
+
 source("sim_extremalfuns_S3.R")
 library(tikzDevice)
 
 # To make \mathbb work in tikz().
 options(tikzLatexPackages =c(getOption( "tikzLatexPackages" ),"\\usepackage{amsfonts}"))
-
-# library(Rcpp)
-# library(RcppArmadillo)
-# sourceCpp('fast_BR.cpp')
-
 
 ## Evaluation of fractional Brownian motion covariance matrix ----
 alpha <- 1
@@ -76,9 +75,6 @@ p
 tikz('../tex/fig/bench_BR_covmat.tex',width=5.5,height=3.5)
 p
 dev.off()
-
-
-
 
 ## NEXT: Benchmark simulations of Brown-Resnick and Smith models ----
 ## using both algorithms
@@ -199,15 +195,6 @@ p3 <- bench_df %>%
   xlab("$n$")
 
 cowplot::plot_grid(p1, p2, p3, ncol = 1, rel_heights = c(1,1,1.5))
-
-# Save plot
-# tikz('../tex/fig/bench_extremal_time.tex',width=5.5,height=4)
-# p1 + xlab("$n$") + theme(legend.position = "bottom", legend.box="vertical", legend.margin=margin())
-# dev.off()
-# 
-# tikz('../tex/fig/bench_extremal_nsim.tex',width=5.5,height=4)
-# p2 + xlab("$n$") + theme(legend.position = "bottom", legend.box="vertical", legend.margin=margin())
-# dev.off()
 
 tikz('../tex/fig/bench_extremal_cowplot.tex',width=5.5,height=6.5)
 cowplot::plot_grid(p1, p2, p3, ncol = 1, rel_heights = c(1,1,1.4))

@@ -218,7 +218,7 @@ dmi_simulation %>%
   xlab(NULL) + ylab(NULL)
 
 ## Return period (years)
-dmi_simulation %>% 
+return_levels <- dmi_simulation %>% 
   group_by(sim) %>% 
   summarise(
     Copenhagen = temp[name == "Landbohøjskolen"],
@@ -234,11 +234,9 @@ dmi_simulation %>%
     return_level = quantile(value, 1-1/Years/7)
   ) %>% 
   pivot_wider(values_from = return_level, names_from = name) %>% 
-  relocate(Denmark, .after = last_col()) -> tab
+  relocate(Denmark, .after = last_col())
 
-tab
-
-p <- tab %>% 
+p <- return_levels %>% 
   pivot_longer(-Years) %>% 
   mutate(name = as_factor(name) %>% fct_relevel("Denmark", after = 0)) %>% 
   ggplot(aes(Years, value, col = name)) +
@@ -253,32 +251,3 @@ p
 tikz('../tex/fig/dmi_sim_returnlevel.tex',width=5,height=2.8)
 p
 dev.off()
-
-library(xtable)
-tab %>% 
-  mutate(Years = as.character(Years)) %>% 
-  xtable(
-    digits = c(0,0,1,1,1,1,1),
-    caption = "Return levels of maximum temperatures in various Danish cities and Denmark as a whole. As there are $7$ blocks per year, the $y$-year return level corresponds to the $1-1/y/7$ quantile among simulations.",
-    label = "tab:sim_quantiles"
-  ) %>% 
-  print(
-    include.rownames = FALSE,
-    file = "../tex/fig/tab_sim_quantiles.tex"
-  )
-
-dmi_stations %>% 
-  filter(
-    name %in% c("Københavns Lufthavn", "Århus Syd", "Esbjerg Lufthavn", "Thyborøn")
-  ) %>% 
-  mutate(name = word(name, 1)) %>% 
-  ggplot() +
-  geom_sf(data = dk_map, fill = "antiquewhite") + 
-  geom_point(aes(x,y)) + 
-  geom_label_repel(aes(x,y,label = name)) +
-  theme(
-    panel.background = element_rect(fill = "aliceblue", colour = alpha("black", 0)),
-    axis.text.x = element_blank(), axis.ticks.x = element_blank(),
-    axis.text.y = element_blank(), axis.ticks.y = element_blank()
-  ) +
-  xlab(NULL) + ylab(NULL)
