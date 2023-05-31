@@ -1,4 +1,4 @@
-source("sim_extremalfuns_S3.R")
+source("sim_maxstable.R")
 library(tikzDevice)
 
 extcoeff_BR <- function(h, s, alpha) {

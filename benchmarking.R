@@ -2,7 +2,7 @@
 ### 1. Benchmark for evaluation of fBs covariance matrix
 ### 2. Benchmark of simulation algorithms for Brown-Resnick and Smith models
 
-source("sim_extremalfuns_S3.R")
+source("sim_maxstable.R")
 library(tikzDevice)
 
 # To make \mathbb work in tikz().
